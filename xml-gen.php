@@ -124,10 +124,8 @@ class Generator {
         foreach ($groups as $rootId => $groupLabel) {
             $subChildrenCount = $this->faker->numberBetween(0, 25);
             $childrenStr      = '';
-            if ($subChildrenCount) {
-                for ($i = 1; $i <= $subChildrenCount; $i++) {
-                    $childrenStr .= "\n\t" . $this->makeItem("{$rootId}__{$i}", 1);
-                }
+            foreach ($subChildrenCount ? range(1, $subChildrenCount) : [] as $i) {
+                $childrenStr .= "\n\t" . $this->makeItem("{$rootId}__{$i}", 1);
             }
             $itemsStr .= "\n\t" . $this->makeItem(
                             $rootId, $subChildrenCount, !!$subChildrenCount, $childrenStr, '', $groupLabel
@@ -156,7 +154,7 @@ class Generator {
                 $startDate = strtotime("{$start} Weeks ");
                 $endDate   = date('Y-m-d H:i:s', $startDate + (60 * 60 * 24 * $this->faker->numberBetween(2, 20)));
                 $nodesList .= "\t\t" . $this->makeNode(
-                                "{$itemId}-{$surfix}", date('Y-m-d H:i:s', $startDate), $endDate, $oparg
+                    "{$itemId}-{$surfix}", date('Y-m-d H:i:s', $startDate), $endDate, $oparg
                 );
             }
         }
